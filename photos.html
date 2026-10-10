@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Photos | Karthik ♥ Vidyashree</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Georgia, 'Times New Roman', serif;
+    background:#fff;
+    color:#3a2330;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(255,255,255,0.97);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid #eee;
+    padding:18px 6%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.brand{
+    text-decoration:none;
+    color:#53152f;
+    font-size:26px;
+    font-weight:bold;
+    letter-spacing:2px;
+}
+
+.nav-links{
+    display:flex;
+    gap:28px;
+    align-items:center;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:#4a3040;
+    font-size:14px;
+    transition:0.3s;
+}
+
+.nav-links a:hover{
+    color:#8d3158;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.photos-hero{
+    text-align:center;
+    padding:90px 20px 65px;
+    background:
+        radial-gradient(circle at top,#fff4f7 0%,#fff 55%);
+}
+
+.photos-hero .small-title{
+    text-transform:uppercase;
+    letter-spacing:4px;
+    font-size:12px;
+    color:#9a496b;
+    margin-bottom:18px;
+}
+
+.photos-hero h1{
+    font-size:52px;
+    color:#5a1833;
+    margin-bottom:18px;
+}
+
+.photos-hero p{
+    max-width:650px;
+    margin:auto;
+    color:#765968;
+    font-size:17px;
+    line-height:1.8;
+}
+
+/* =========================
+   GALLERY
+========================= */
+
+.gallery-section{
+    max-width:1250px;
+    margin:auto;
+    padding:30px 5% 80px;
+}
+
+.gallery{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
+
+.photo-card{
+    position:relative;
+    overflow:hidden;
+    border-radius:16px;
+    background:#f8f1f4;
+    cursor:pointer;
+    aspect-ratio:4/3;
+    box-shadow:0 8px 25px rgba(80,30,50,0.08);
+}
+
+.photo-card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform 0.5s ease;
+}
+
+.photo-card:hover img{
+    transform:scale(1.06);
+}
+
+.photo-card::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        to top,
+        rgba(50,15,30,0.15),
+        transparent 45%
+    );
+    pointer-events:none;
+}
+
+/* =========================
+   PAGINATION
+========================= */
+
+.pagination{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    margin-top:55px;
+    flex-wrap:wrap;
+}
+
+.page-btn,
+.prev-next{
+    border:none;
+    background:transparent;
+    color:#5d4050;
+    min-width:42px;
+    height:42px;
+    border-radius:12px;
+    font-family:inherit;
+    font-size:15px;
+    cursor:pointer;
+    transition:all 0.25s ease;
+}
+
+.page-btn:hover,
+.prev-next:hover{
+    background:#f6e7ed;
+    color:#7c2349;
+}
+
+.page-btn.active{
+    background:#8b3157;
+    color:white;
+    box-shadow:0 5px 15px rgba(139,49,87,0.25);
+}
+
+.prev-next{
+    padding:0 14px;
+    min-width:auto;
+    font-weight:bold;
+}
+
+.prev-next:disabled{
+    opacity:0.35;
+    cursor:not-allowed;
+    background:transparent;
+}
+
+.ellipsis{
+    color:#8d7480;
+    padding:0 3px;
+}
+
+/* =========================
+   LIGHTBOX
+========================= */
+
+.lightbox{
+    position:fixed;
+    inset:0;
+    z-index:3000;
+    background:rgba(20,8,14,0.94);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:30px;
+}
+
+.lightbox.show{
+    display:flex;
+}
+
+.lightbox-image{
+    max-width:90vw;
+    max-height:84vh;
+    object-fit:contain;
+    border-radius:8px;
+    box-shadow:0 15px 60px rgba(0,0,0,0.5);
+}
+
+.close-btn{
+    position:absolute;
+    top:22px;
+    right:28px;
+    width:48px;
+    height:48px;
+    border:none;
+    border-radius:50%;
+    background:rgba(255,255,255,0.12);
+    color:white;
+    font-size:30px;
+    cursor:pointer;
+    z-index:10;
+}
+
+.close-btn:hover{
+    background:rgba(255,255,255,0.22);
+}
+
+.lightbox-nav{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:55px;
+    height:55px;
+    border:none;
+    border-radius:50%;
+    background:rgba(255,255,255,0.14);
+    color:white;
+    font-size:30px;
+    cursor:pointer;
+    z-index:10;
+}
+
+.lightbox-nav:hover{
+    background:rgba(255,255,255,0.25);
+}
+
+.lightbox-prev{
+    left:25px;
+}
+
+.lightbox-next{
+    right:25px;
+}
+
+.download-btn{
+    position:absolute;
+    bottom:25px;
+    left:50%;
+    transform:translateX(-50%);
+    text-decoration:none;
+    color:white;
+    background:#8b3157;
+    padding:13px 24px;
+    border-radius:30px;
+    font-size:14px;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.download-btn:hover{
+    background:#a3446b;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    background:#64183e;
+    color:white;
+    text-align:center;
+    padding:38px 20px;
+}
+
+footer h3{
+    font-size:18px;
+    margin-bottom:8px;
+}
+
+footer p{
+    font-size:13px;
+    opacity:0.9;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:900px){
+
+    .nav-links{
+        gap:15px;
+    }
+
+    .nav-links a{
+        font-size:12px;
+    }
+
+    .photos-hero h1{
+        font-size:40px;
+    }
+
+    .gallery{
+        grid-template-columns:repeat(2,1fr);
+        gap:15px;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .navbar{
+        padding:15px 18px;
+    }
+
+    .brand{
+        font-size:22px;
+    }
+
+    .nav-links{
+        gap:10px;
+        overflow-x:auto;
+        white-space:nowrap;
+        max-width:75%;
+    }
+
+    .nav-links a{
+        font-size:11px;
+    }
+
+    .photos-hero{
+        padding:65px 20px 45px;
+    }
+
+    .photos-hero h1{
+        font-size:34px;
+    }
+
+    .photos-hero p{
+        font-size:14px;
+    }
+
+    .gallery-section{
+        padding:20px 15px 60px;
+    }
+
+    .gallery{
+        grid-template-columns:repeat(2,1fr);
+        gap:12px;
+    }
+
+    .photo-card{
+        border-radius:11px;
+    }
+
+    .pagination{
+        gap:5px;
+        margin-top:40px;
+    }
+
+    .page-btn,
+    .prev-next{
+        min-width:38px;
+        height:38px;
+        font-size:13px;
+    }
+
+    .prev-next{
+        padding:0 10px;
+    }
+
+    .lightbox{
+        padding:15px;
+    }
+
+    .lightbox-image{
+        max-width:95vw;
+        max-height:80vh;
+    }
+
+    .lightbox-prev{
+        left:10px;
+    }
+
+    .lightbox-next{
+        right:10px;
+    }
+
+}
+
+</style>
+
+<style>
+/* =========================
+   WEDDING ASSISTANT
+   Added without changing the existing design
+========================= */
+.wedding-chat-toggle{
+  position:fixed !important;
+  right:24px !important;
+  bottom:24px !important;
+  z-index:5000;
+  width:62px;
+  height:62px;
+  border:0;
+  border-radius:50%;
+  background:#741d34;
+  color:#fff;
+  font-size:26px;
+  cursor:pointer;
+  box-shadow:0 12px 32px rgba(50,10,25,.30);
+  transition:.25s ease;
+}
+.wedding-chat-toggle:hover{transform:translateY(-3px);box-shadow:0 16px 38px rgba(50,10,25,.36)}
+.wedding-chat-panel{
+  position:fixed !important;
+  right:24px !important;
+  bottom:98px !important;
+  z-index:4999;
+  width:380px;
+  max-width:calc(100vw - 30px);
+  height:570px;
+  display:none;
+  flex-direction:column;
+  overflow:hidden;
+  background:#fff;
+  border:1px solid rgba(116,29,52,.12);
+  border-radius:22px;
+  box-shadow:0 24px 70px rgba(45,10,25,.25);
+}
+.wedding-chat-panel.open{display:flex}
+.wedding-chat-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 18px;
+  background:#741d34;
+  color:#fff;
+}
+.wedding-chat-head strong{font-family:"Cormorant Garamond",Georgia,serif;font-size:21px}
+.wedding-chat-head small{display:block;font:11px Inter,system-ui,sans-serif;opacity:.82;margin-top:2px}
+.wedding-chat-close{
+  border:0;background:transparent;color:#fff;font-size:25px;cursor:pointer;
+}
+.wedding-chat-body{
+  flex:1;
+  overflow-y:auto;
+  padding:14px;
+  background:#fffaf6;
+}
+.wedding-chat-msg{
+  max-width:88%;
+  margin:7px 0;
+  padding:10px 13px;
+  border-radius:15px;
+  font:14px/1.5 Inter,system-ui,sans-serif;
+  white-space:pre-wrap;
+}
+.wedding-chat-msg.bot{
+  background:#fff;
+  border:1px solid rgba(116,29,52,.10);
+  color:#3a2330;
+}
+.wedding-chat-msg.user{
+  margin-left:auto;
+  background:#741d34;
+  color:#fff;
+}
+.wedding-chat-photo-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+  margin-top:10px;
+}
+.wedding-chat-photo-card{
+  overflow:hidden;
+  border-radius:11px;
+  background:#f6edf0;
+  border:1px solid rgba(116,29,52,.08);
+}
+.wedding-chat-photo-card img{
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:cover;
+  cursor:pointer;
+}
+.wedding-chat-photo-actions{
+  display:flex;
+  justify-content:center;
+  padding:6px;
+}
+.wedding-chat-photo-actions a{
+  color:#741d34;
+  font:600 11px Inter,system-ui,sans-serif;
+  text-decoration:none;
+}
+.wedding-chat-quick{
+  display:flex;
+  gap:6px;
+  overflow-x:auto;
+  padding:8px 10px;
+  background:#fff;
+  border-top:1px solid #eee;
+}
+.wedding-chat-quick button{
+  flex:0 0 auto;
+  border:1px solid #ead2dc;
+  background:#fff7f8;
+  color:#741d34;
+  border-radius:18px;
+  padding:7px 10px;
+  font:600 11px Inter,system-ui,sans-serif;
+  cursor:pointer;
+}
+.wedding-chat-input{
+  display:flex;
+  gap:8px;
+  padding:10px;
+  background:#fff;
+  border-top:1px solid #eee;
+}
+.wedding-chat-input input{
+  min-width:0;
+  flex:1;
+  border:1px solid #ddd;
+  border-radius:22px;
+  padding:10px 13px;
+  outline:none;
+  font:14px Inter,system-ui,sans-serif;
+}
+.wedding-chat-input button{
+  border:0;
+  background:#741d34;
+  color:#fff;
+  border-radius:22px;
+  padding:0 16px;
+  font:600 13px Inter,system-ui,sans-serif;
+  cursor:pointer;
+}
+@media(max-width:600px){
+  .wedding-chat-toggle{right:15px;bottom:15px;width:58px;height:58px}
+  .wedding-chat-panel{right:10px;bottom:84px;width:calc(100vw - 20px);height:70vh;border-radius:19px}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar">
+
+    <a href="index.html" class="brand">
+        K ♥ V
+    </a>
+
+    <div class="nav-links">
+
+        <a href="index.html#story">
+            Our Story
+        </a>
+
+        <a href="index.html#gallery">
+            Moments
+        </a>
+
+        <a href="index.html#memories">
+            Memories
+        </a>
+
+        <a href="photos.html">
+            Photos
+        </a>
+
+        <a href="index.html#wedding">
+            Wedding
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="photos-hero">
+
+    <div class="small-title">
+        Karthik ♥ Vidyashree
+    </div>
+
+    <h1>
+        All Our Photos
+    </h1>
+
+    <p>
+        A collection of beautiful moments, memories and celebrations.
+        Tap any photo to view it in full screen.
+    </p>
+
+</section>
+
+
+<!-- =========================
+     GALLERY
+========================= -->
+
+<section class="gallery-section">
+
+    <div class="gallery" id="gallery"></div>
+
+    <!-- PAGINATION -->
+    <div class="pagination" id="pagination"></div>
+
+</section>
+
+
+<!-- =========================
+     LIGHTBOX
+========================= -->
+
+<div class="lightbox" id="lightbox">
+
+    <button class="close-btn" id="closeBtn">
+        ×
+    </button>
+
+    <button class="lightbox-nav lightbox-prev" id="prevBtn">
+        ‹
+    </button>
+
+    <img
+        id="lightboxImage"
+        class="lightbox-image"
+        src=""
+        alt="Engagement photo"
+    >
+
+    <button class="lightbox-nav lightbox-next" id="nextBtn">
+        ›
+    </button>
+
+    <a
+        id="downloadBtn"
+        class="download-btn"
+        href=""
+        download
+    >
+        Download Photo
+    </a>
+
+</div>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <h3>
+        Karthik ♥ Vidyashree
+    </h3>
+
+    <p>
+        Engagement memories · Made with love
+    </p>
+
+</footer>
+
+
+<script>
+
+/* ==========================================
+   PHOTOS 013.jpg → 326.jpg
+========================================== */
+
+const photoFiles = Array.from(
+    { length: 106 },
+    (_, i) => `images/${String(i + 13)}.jpg`
+);
+
+
+/* ==========================================
+   SETTINGS
+========================================== */
+
+const perPage = 12;
+
+let currentPage = 1;
+
+const totalPages = Math.ceil(photoFiles.length / perPage);
+
+
+/* ==========================================
+   ELEMENTS
+========================================== */
+
+const gallery =
+    document.getElementById("gallery");
+
+const pagination =
+    document.getElementById("pagination");
+
+const lightbox =
+    document.getElementById("lightbox");
+
+const lightboxImage =
+    document.getElementById("lightboxImage");
+
+const closeBtn =
+    document.getElementById("closeBtn");
+
+const prevBtn =
+    document.getElementById("prevBtn");
+
+const nextBtn =
+    document.getElementById("nextBtn");
+
+const downloadBtn =
+    document.getElementById("downloadBtn");
+
+
+/* ==========================================
+   CURRENT LIGHTBOX PHOTO
+========================================== */
+
+let currentPhotoIndex = 0;
+
+
+/* ==========================================
+   RENDER GALLERY
+========================================== */
+
+function renderGallery(){
+
+    gallery.innerHTML = "";
+
+    const start =
+        (currentPage - 1) * perPage;
+
+    const end =
+        Math.min(
+            start + perPage,
+            photoFiles.length
+        );
+
+    for(let i = start; i < end; i++){
+
+        const card =
+            document.createElement("div");
+
+        card.className = "photo-card";
+
+        const img =
+            document.createElement("img");
+
+        img.src = photoFiles[i];
+
+        /* No serial number */
+        img.alt = "Engagement photo";
+
+        img.loading = "lazy";
+        img.decoding = "async";
+
+        card.appendChild(img);
+
+        card.addEventListener("click", () => {
+
+            openLightbox(i);
+
+        });
+
+        gallery.appendChild(card);
+    }
+}
+
+
+/* ==========================================
+   PAGINATION
+========================================== */
+
+function renderPagination(){
+
+    pagination.innerHTML = "";
+
+    /* PREVIOUS */
+
+    const previous =
+        document.createElement("button");
+
+    previous.className = "prev-next";
+
+    previous.textContent = "Previous";
+
+    previous.disabled =
+        currentPage === 1;
+
+    previous.addEventListener("click", () => {
+
+        if(currentPage > 1){
+
+            currentPage--;
+
+            render();
+
+            window.scrollTo({
+                top:0,
+                behavior:"smooth"
+            });
+        }
+
+    });
+
+    pagination.appendChild(previous);
+
+
+    /* ======================================
+       ONLY 3 PAGE NUMBERS AT A TIME
+    ====================================== */
+
+    let startPage;
+    let endPage;
+
+    if(totalPages <= 3){
+
+        startPage = 1;
+        endPage = totalPages;
+
+    }
+    else if(currentPage === 1){
+
+        startPage = 1;
+        endPage = 3;
+
+    }
+    else if(currentPage === totalPages){
+
+        startPage = totalPages - 2;
+        endPage = totalPages;
+
+    }
+    else{
+
+        startPage = currentPage - 1;
+        endPage = currentPage + 1;
+
+    }
+
+
+    /* ======================================
+       FIRST PAGE WHEN WINDOW IS NOT AT START
+    ====================================== */
+
+    if(startPage > 1){
+
+        const first =
+            document.createElement("button");
+
+        first.className = "page-btn";
+
+        first.textContent = "1";
+
+        first.addEventListener("click", () => {
+
+            currentPage = 1;
+
+            render();
+
+            window.scrollTo({
+                top:0,
+                behavior:"smooth"
+            });
+
+        });
+
+        pagination.appendChild(first);
+
+        if(startPage > 2){
+
+            const dots =
+                document.createElement("span");
+
+            dots.className = "ellipsis";
+
+            dots.textContent = "…";
+
+            pagination.appendChild(dots);
+
+        }
+
+    }
+
+
+    /* ======================================
+       PAGE NUMBERS
+    ====================================== */
+
+    for(
+        let page = startPage;
+        page <= endPage;
+        page++
+    ){
+
+        const button =
+            document.createElement("button");
+
+        button.className = "page-btn";
+
+        button.textContent = page;
+
+        if(page === currentPage){
+
+            button.classList.add("active");
+
+        }
+
+        button.addEventListener("click", () => {
+
+            currentPage = page;
+
+            render();
+
+            window.scrollTo({
+                top:0,
+                behavior:"smooth"
+            });
+
+        });
+
+        pagination.appendChild(button);
+
+    }
+
+
+    /* ======================================
+       LAST PAGE
+    ====================================== */
+
+    if(endPage < totalPages){
+
+        if(endPage < totalPages - 1){
+
+            const dots =
+                document.createElement("span");
+
+            dots.className = "ellipsis";
+
+            dots.textContent = "…";
+
+            pagination.appendChild(dots);
+
+        }
+
+        const last =
+            document.createElement("button");
+
+        last.className = "page-btn";
+
+        last.textContent = totalPages;
+
+        last.addEventListener("click", () => {
+
+            currentPage = totalPages;
+
+            render();
+
+            window.scrollTo({
+                top:0,
+                behavior:"smooth"
+            });
+
+        });
+
+        pagination.appendChild(last);
+
+    }
+
+
+    /* ======================================
+       NEXT
+    ====================================== */
+
+    const next =
+        document.createElement("button");
+
+    next.className = "prev-next";
+
+    next.textContent = "Next";
+
+    next.disabled =
+        currentPage === totalPages;
+
+    next.addEventListener("click", () => {
+
+        if(currentPage < totalPages){
+
+            currentPage++;
+
+            render();
+
+            window.scrollTo({
+                top:0,
+                behavior:"smooth"
+            });
+
+        }
+
+    });
+
+    pagination.appendChild(next);
+
+}
+
+
+/* ==========================================
+   RENDER EVERYTHING
+========================================== */
+
+function render(){
+
+    renderGallery();
+
+    renderPagination();
+
+}
+
+
+/* ==========================================
+   OPEN LIGHTBOX
+========================================== */
+
+function openLightbox(index){
+
+    currentPhotoIndex = index;
+
+    lightboxImage.src =
+        photoFiles[currentPhotoIndex];
+
+    downloadBtn.href =
+        photoFiles[currentPhotoIndex];
+
+    lightbox.classList.add("show");
+
+    document.body.style.overflow = "hidden";
+
+}
+
+
+/* ==========================================
+   CLOSE LIGHTBOX
+========================================== */
+
+function closeLightbox(){
+
+    lightbox.classList.remove("show");
+
+    document.body.style.overflow = "";
+
+}
+
+
+/* ==========================================
+   NEXT PHOTO
+========================================== */
+
+function showNextPhoto(){
+
+    currentPhotoIndex++;
+
+    if(
+        currentPhotoIndex >=
+        photoFiles.length
+    ){
+
+        currentPhotoIndex = 0;
+
+    }
+
+    lightboxImage.src =
+        photoFiles[currentPhotoIndex];
+
+    downloadBtn.href =
+        photoFiles[currentPhotoIndex];
+
+}
+
+
+/* ==========================================
+   PREVIOUS PHOTO
+========================================== */
+
+function showPreviousPhoto(){
+
+    currentPhotoIndex--;
+
+    if(currentPhotoIndex < 0){
+
+        currentPhotoIndex =
+            photoFiles.length - 1;
+
+    }
+
+    lightboxImage.src =
+        photoFiles[currentPhotoIndex];
+
+    downloadBtn.href =
+        photoFiles[currentPhotoIndex];
+
+}
+
+
+/* ==========================================
+   BUTTON EVENTS
+========================================== */
+
+closeBtn.addEventListener(
+    "click",
+    closeLightbox
+);
+
+nextBtn.addEventListener(
+    "click",
+    showNextPhoto
+);
+
+prevBtn.addEventListener(
+    "click",
+    showPreviousPhoto
+);
+
+
+/* ==========================================
+   CLICK OUTSIDE IMAGE
+========================================== */
+
+lightbox.addEventListener(
+    "click",
+    (event) => {
+
+        if(event.target === lightbox){
+
+            closeLightbox();
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   KEYBOARD CONTROLS
+========================================== */
+
+document.addEventListener(
+    "keydown",
+    (event) => {
+
+        if(!lightbox.classList.contains("show")){
+
+            return;
+
+        }
+
+        if(event.key === "Escape"){
+
+            closeLightbox();
+
+        }
+
+        if(event.key === "ArrowRight"){
+
+            showNextPhoto();
+
+        }
+
+        if(event.key === "ArrowLeft"){
+
+            showPreviousPhoto();
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   START
+========================================== */
+
+render();
+
+</script>
+
+
+<!-- =========================
+     WEDDING ASSISTANT
+========================= -->
+<button class="wedding-chat-toggle" id="weddingChatToggle" aria-label="Open Wedding Assistant">💬</button>
+
+<div class="wedding-chat-panel" id="weddingChatPanel" aria-label="Wedding Assistant">
+  <div class="wedding-chat-head">
+    <div>
+      <strong>Wedding Assistant 💍</strong>
+      <small>Karthik ♥ Vidyashree</small>
+    </div>
+    <button class="wedding-chat-close" id="weddingChatClose" aria-label="Close chat">×</button>
+  </div>
+
+  <div class="wedding-chat-body" id="weddingChatBody"></div>
+
+  <div class="wedding-chat-quick">
+    <button data-chat-question="Show me couple photos">Couple Photos</button>
+    <button data-chat-question="Show bride photos">Bride</button>
+    <button data-chat-question="Show groom photos">Groom</button>
+    <button data-chat-question="Show bride family photos">Bride Family</button>
+    <button data-chat-question="Show groom family photos">Groom Family</button>
+  </div>
+
+  <div class="wedding-chat-input">
+    <input id="weddingChatInput" type="text" placeholder="Ask about the couple or photos..." autocomplete="off">
+    <button id="weddingChatSend">Send</button>
+  </div>
+</div>
+
+
+<script>
+/* =========================================================
+   WEDDING ASSISTANT
+   Knowledge is intentionally based on the wedding details
+   supplied for this website.
+========================================================= */
+(function(){
+
+  const weddingAssistantData = {
+    groom: "Karthik",
+    bride: "Vidyashree",
+    couple: "Karthik & Vidyashree",
+    engagementDate: "September 6, 2026",
+    weddingDate: "December 5 & 6, 2026",
+
+    // Photo training / categories — exact image paths
+    couplePhotos: [
+      "images/024.jpg", "images/026.jpg",
+      "images/088.jpg", "images/090.jpg"
+    ],
+    bridePhotos: [
+      "images/285.jpg", "images/289.jpg"
+    ],
+    groomPhotos: [
+      "images/264.jpg", "images/268.jpg"
+    ],
+    brideFamilyPhotos: [
+      "images/149.jpg", "images/150.jpg"
+    ],
+    groomFamilyPhotos: [
+      "images/115.jpg", "images/175.jpg"
+    ]
+  };
+
+  const chatToggle = document.getElementById("weddingChatToggle");
+  const chatPanel = document.getElementById("weddingChatPanel");
+  const chatClose = document.getElementById("weddingChatClose");
+  const chatBody = document.getElementById("weddingChatBody");
+  const chatInput = document.getElementById("weddingChatInput");
+  const chatSend = document.getElementById("weddingChatSend");
+
+  if(!chatToggle || !chatPanel || !chatBody) return;
+
+  function normalize(text){
+    return text
+      .toLowerCase()
+      .replace(/[?!.,'"`]/g," ")
+      .replace(/\s+/g," ")
+      .trim();
+  }
+
+  function hasAny(text, words){
+    return words.some(word => text.includes(word));
+  }
+
+  function addTextMessage(text, type="bot"){
+    const message = document.createElement("div");
+    message.className = "wedding-chat-msg " + type;
+    message.textContent = text;
+    chatBody.appendChild(message);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  function photoPath(number){
+    // The training data can use the exact path, e.g. images/024.jpg.
+    // Keep compatibility with simple numbers too.
+    if(String(number).startsWith("images/")) return String(number);
+    return "images/" + String(number).padStart(3,"0") + ".jpg";
+  }
+
+  function showPhotos(title, numbers){
+    const message = document.createElement("div");
+    message.className = "wedding-chat-msg bot";
+
+    const titleElement = document.createElement("div");
+    titleElement.textContent = title;
+    message.appendChild(titleElement);
+
+    const grid = document.createElement("div");
+    grid.className = "wedding-chat-photo-grid";
+
+    numbers.forEach(number => {
+      const path = photoPath(number);
+
+      const card = document.createElement("div");
+      card.className = "wedding-chat-photo-card";
+
+      const image = document.createElement("img");
+      image.src = path;
+      image.alt = "Wedding photo";
+      image.loading = "lazy";
+      image.decoding = "async";
+
+      /* Show it inside the chatbot. Clicking opens the photo
+         using the existing page lightbox when available. */
+      image.addEventListener("click", function(){
+        if(typeof window.openLightbox === "function"){
+          const allPhotos = Array.from(
+            {length:314},
+            (_,i) => "images/" + String(i + 13).padStart(3,"0") + ".jpg"
+          );
+          const index = allPhotos.indexOf(path);
+          if(index !== -1) window.openLightbox(index);
+        } else if(typeof window.openBox === "function"){
+          const homePhotos = Array.from(
+            document.querySelectorAll(".gallery-grid .photo img")
+          ).map(img => img.getAttribute("src"));
+          const index = homePhotos.indexOf(path);
+          if(index !== -1) window.openBox(index);
+        }
+      });
+
+      const actions = document.createElement("div");
+      actions.className = "wedding-chat-photo-actions";
+
+      const download = document.createElement("a");
+      download.href = path;
+      download.download = "";
+      download.textContent = "Download";
+
+      actions.appendChild(download);
+      card.appendChild(image);
+      card.appendChild(actions);
+      grid.appendChild(card);
+    });
+
+    message.appendChild(grid);
+    chatBody.appendChild(message);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  function answerQuestion(question){
+    const q = normalize(question);
+
+    /* PHOTO REQUESTS FIRST */
+    if(
+      hasAny(q, ["couple photo","couple photos","couple picture","couple pictures",
+                 "photos of both","pictures of both","Karthik and Vidyashree photo",
+                 "Karthik Vidyashree photo","photos together","photo together",
+                 "show couple","send couple"])
+    ){
+      showPhotos(
+        "Here are Karthik & Vidyashree's couple photos ❤️",
+        weddingAssistantData.couplePhotos
+      );
+      return;
+    }
+
+    if(
+      hasAny(q, ["bride family photo","bride family photos","Vidyashree family photo",
+                 "Vidyashree family photos","photos of bride family","bride family pictures"])
+    ){
+      showPhotos(
+        "Here are the bride family photos ❤️",
+        weddingAssistantData.brideFamilyPhotos
+      );
+      return;
+    }
+
+    if(
+      hasAny(q, ["groom family photo","groom family photos","Karthik family photo",
+                 "Karthik family photos","photos of groom family","groom family pictures"])
+    ){
+      showPhotos(
+        "Here are the groom family photos ❤️",
+        weddingAssistantData.groomFamilyPhotos
+      );
+      return;
+    }
+
+    if(
+      hasAny(q, ["bride photo","bride photos","bride picture","bride pictures",
+                 "Vidyashree photo","Vidyashree photos","photos of bride","photo of bride"])
+    ){
+      showPhotos(
+        "Here are Vidyashree's photos ❤️",
+        weddingAssistantData.bridePhotos
+      );
+      return;
+    }
+
+    if(
+      hasAny(q, ["groom photo","groom photos","groom picture","groom pictures",
+                 "Karthik photo","Karthik photos","photos of groom","photo of groom"])
+    ){
+      showPhotos(
+        "Here are Karthik's photos ❤️",
+        weddingAssistantData.groomPhotos
+      );
+      return;
+    }
+
+    /* PEOPLE */
+    if(
+      hasAny(q, ["who is the bride","who is bride","bride name","name of bride",
+                 "bride's name","brides name","girl getting married","who is getting married girl"]) ||
+      (q === "bride") ||
+      (q.includes("bride") && !hasAny(q,["photo","picture","family"]))
+    ){
+      addTextMessage("The bride is Vidyashree. ❤️");
+      return;
+    }
+
+    if(
+      hasAny(q, ["who is the groom","who is groom","groom name","name of groom",
+                 "groom's name","grooms name","boy getting married"]) ||
+      (q === "groom") ||
+      (q.includes("groom") && !hasAny(q,["photo","picture","family"]))
+    ){
+      addTextMessage("The groom is Karthik. 🤵");
+      return;
+    }
+
+    if(
+      hasAny(q, ["couple name","couples name","who are getting married",
+                 "names of the couple","their names","what are their names",
+                 "who is the couple"]) ||
+      (q === "couple")
+    ){
+      addTextMessage("The couple is Karthik & Vidyashree. 💕");
+      return;
+    }
+
+    /* DATES */
+    if(
+      hasAny(q, ["engagement date","when was the engagement","when is the engagement",
+                 "engagement day","engagement happened","engaged on","date of engagement"])
+    ){
+      addTextMessage("The engagement was on September 6, 2026. 💍");
+      return;
+    }
+
+    if(
+      hasAny(q, ["wedding date","when is the wedding","when is marriage",
+                 "marriage date","wedding day","date of wedding","date of marriage"])
+    ){
+      addTextMessage("The wedding is on December 5 & 6, 2026. 📅");
+      return;
+    }
+
+    /* GENERAL HELP */
+    if(hasAny(q, ["hello","hi","hey","namaste","good morning","good evening"])){
+      addTextMessage("Hello! 👋 I’m the Karthik & Vidyashree Wedding Assistant. Ask me about the couple, dates, or specific photo groups.");
+      return;
+    }
+
+    if(hasAny(q, ["help","what can you do","what can i ask","commands"])){
+      addTextMessage(
+        "You can ask me:\n" +
+        "• Who is the bride?\n" +
+        "• Who is the groom?\n" +
+        "• What is the couple name?\n" +
+        "• When was the engagement?\n" +
+        "• When is the wedding?\n" +
+        "• Show me couple photos\n" +
+        "• Show bride/groom photos\n" +
+        "• Show bride family photos\n" +
+        "• Show groom family photos"
+      );
+      return;
+    }
+
+    if(hasAny(q, ["download","how to download","save photo"])){
+      addTextMessage("To download a photo, ask me for the photo group and then tap the Download button under the photo.");
+      return;
+    }
+
+    if(hasAny(q, ["photo","photos","picture","pictures","gallery","images"])){
+      addTextMessage("I can show specific photos directly here. Try “Show me couple photos”, “Show bride photos”, or “Show groom photos”. 📸");
+      return;
+    }
+
+    addTextMessage("I can help with Karthik & Vidyashree's names, engagement date, wedding date, and their photo groups. Try “Who is the bride?” or “Show me couple photos”.");
+  }
+
+  function sendQuestion(){
+    const value = chatInput.value.trim();
+    if(!value) return;
+
+    addTextMessage(value,"user");
+    chatInput.value = "";
+
+    setTimeout(function(){
+      answerQuestion(value);
+    },120);
+  }
+
+  chatToggle.addEventListener("click",function(){
+    chatPanel.classList.toggle("open");
+
+    if(chatPanel.classList.contains("open") && chatBody.children.length === 0){
+      addTextMessage("Hi! 👋 I’m your Wedding Assistant.\nAsk me about Karthik & Vidyashree, the engagement/wedding dates, or ask me to show specific photos directly here.");
+    }
+  });
+
+  chatClose.addEventListener("click",function(){
+    chatPanel.classList.remove("open");
+  });
+
+  chatSend.addEventListener("click",sendQuestion);
+
+  chatInput.addEventListener("keydown",function(event){
+    if(event.key === "Enter") sendQuestion();
+  });
+
+  document.querySelectorAll("[data-chat-question]").forEach(function(button){
+    button.addEventListener("click",function(){
+      const question = button.getAttribute("data-chat-question");
+      addTextMessage(question,"user");
+      setTimeout(function(){
+        answerQuestion(question);
+      },120);
+    });
+  });
+
+})();
+</script>
+
+</body>
+</html>
